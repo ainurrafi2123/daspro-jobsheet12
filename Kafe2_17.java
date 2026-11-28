@@ -1,0 +1,124 @@
+import java.util.Scanner;
+
+public class Kafe2_17 {
+    // A modifikasi jam kunjung
+    public static void Menu(String namaPelanggan, boolean isMember) {
+        System.out.println("Selamat datang, " + namaPelanggan + "!");
+
+        if (isMember) {
+            System.out.println("Anda adalah member, dapatkan diskon 10% untuk setiap pembelian!");
+        }
+
+        System.out.println("===== MENU RESTO KAFE =====");
+        System.out.println("1. Kopi Hitam - Rp 15,000");
+        System.out.println("2. Cappuccino - Rp 20,000");
+        System.out.println("3. Latte - Rp 22,000");
+        System.out.println("4. Teh Tarik - Rp 12,000");
+        System.out.println("5. Roti Bakar - Rp 10,000");
+        System.out.println("6. Mie Goreng - Rp 18,000");
+        System.out.println("===========================");
+        System.out.println("Silakan pilih menu yang Anda inginkan.");
+    }
+
+    // Percobaan 3: Fungsi dengan nilai kembalian
+    public static int hitungTotalHargaNoAbsen(int pilihanMenu, int banyakItem) {
+        int[] hargaItems = { 15000, 20000, 22000, 12000, 10000, 18000 };
+
+        int hargaTotal = hargaItems[pilihanMenu - 1] * banyakItem;
+        return hargaTotal;
+    }
+
+    // Membuat Fungsi baru hitungDiskon (4a & 4b)
+    public static int hitungDiskon(int total, String kodePromo, boolean isMember) {
+        int diskonPromo = 0;
+
+        if (kodePromo.equals("DISKON50")) {
+            diskonPromo = total * 50 / 100;
+        } else if (kodePromo.equals("DISKON30")) {
+            diskonPromo = total * 30 / 100;
+        } else {
+            System.out.println("Kode promo invalid");
+        }
+
+        int diskonMember = 0;
+        if (isMember) {
+            diskonMember = total * 10 / 100;
+        }
+
+        return diskonPromo + diskonMember;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        boolean statusMember = true;
+        Menu("Andi", statusMember);
+
+        int totalHarga = 0;
+        String lanjut;
+
+        do {
+            System.out.print("\nMasukkan nomor menu yang ingin Anda pesan: ");
+            int pilihanMenu = sc.nextInt();
+
+            if (pilihanMenu < 1 || pilihanMenu > 6) {
+                System.out.println("Menu tidak tersedia");
+            } else {
+                System.out.print("Masukkan jumlah item yang ingin dipesan: ");
+                int banyakItem = sc.nextInt();
+                totalHarga += hitungTotalHargaNoAbsen(pilihanMenu, banyakItem);
+            }
+
+            System.out.print("Apakah ingin memesan menu lain? (y/n): ");
+            lanjut = sc.next();
+        } while (lanjut.equalsIgnoreCase("y"));
+
+        System.out.print("Masukkan kode promo: ");
+        String kodePromo = sc.next();
+
+        // Menghitung diskon dan total bayar akhir (4c)
+        int besarDiskon = hitungDiskon(totalHarga, kodePromo, statusMember);
+        int totalBayar = totalHarga - besarDiskon;
+
+        System.out.println("\n===== RINCIAN PEMBAYARAN =====");
+        System.out.println("Total Harga   : Rp" + totalHarga);
+        System.out.println("Besar Diskon  : Rp" + besarDiskon);
+        System.out.println("Total Bayar   : Rp" + totalBayar);
+        
+        sc.close();
+    }
+
+}
+
+// // A menambahkan Kondisi Happy Hour untuk jamKunjung 14 sampai 16
+// if (jamKunjung >= 14 && jamKunjung <= 16) {
+// System.out.println("Happy Hour! Diskon 20% untuk semua minuman");
+// }
+
+// // b. Modifikasi fungsi main menjadi Scanner untuk inputannya
+// public static void main(String[] args) {
+// Scanner sc = new Scanner(System.in);
+
+// System.out.print("Masukkan nama pelanggan: ");
+// String nama = sc.nextLine();
+
+// System.out.print("Apakah member (y/n)? ");
+// String statusMember = sc.nextLine();
+// boolean isMember = statusMember.equalsIgnoreCase("y");
+
+// System.out.print("Masukkan jam kunjung (0-23): ");
+// int jam = sc.nextInt();
+
+// System.out.println();
+// Menu(nama, isMember, jam);
+// }
+
+// public static void ubahNama(String nama) {
+// nama = "Tamu";
+// System.out.println("Didalam Fungsi: " + nama);
+// }
+
+// public static void main(String[] args) {
+// String nama = "Andi";
+// ubahNama(nama);
+// System.out.println("Di main: " + nama);
+// }
